@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <FILTERGRAPH>
-  <FILTER uid="3" x="0.26" y="0.5463709677419355">
+  <FILTER uid="3" x="0.28875" y="0.655241935483871">
     <PLUGIN name="Audio Output" descriptiveName="" format="Internal" category="I/O devices"
             manufacturer="JUCE" version="1.0" file="" uniqueId="724248cb"
             isInstrument="0" fileTime="0" infoUpdateTime="0" numInputs="2"
@@ -16,11 +16,11 @@
       </OUTPUTS>
     </LAYOUT>
   </FILTER>
-  <FILTER uid="7" x="0.25375" y="0.3447580645161291" uiLastX_Normal="2876"
+  <FILTER uid="7" x="0.29375" y="0.4153225806451613" uiLastX_Normal="2876"
           uiLastY_Normal="306" uiopen_Normal="0">
     <PLUGIN name="SimpleEQ" format="VST3" category="Fx" manufacturer="yourcompany"
             version="1.0.0" file="E:\AudioProgramming\SimpleEQ_\Builds\VisualStudio2019\x64\Debug\VST3\SimpleEQ.vst3"
-            uniqueId="feaae428" isInstrument="0" fileTime="18043c71c3e" infoUpdateTime="18043cbf110"
+            uniqueId="feaae428" isInstrument="0" fileTime="18043c71c3e" infoUpdateTime="18043e21be0"
             numInputs="2" numOutputs="2" isShell="0" uid="e959144b"/>
     <STATE>191.VMjLgXK....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9XCLt3hKt3hKt3hKt3hYRUUSTEETIckVwTjQisVTTgkdEYjKAQjYPQSPWgUdMcjKAQjct3hdA4hKt3hKt3hKtnTUv.UQAslXuk0UXoWUFE0YQcEV77RRC8Vav8lak4Fc9vyKVMEUy.Ea0cVZtMEcgQWY9..</STATE>
     <LAYOUT>
@@ -32,6 +32,24 @@
       </OUTPUTS>
     </LAYOUT>
   </FILTER>
+  <FILTER uid="8" x="0.29625" y="0.1733870967741936" uiLastX_Normal="2683"
+          uiLastY_Normal="147" uiopen_Normal="0">
+    <PLUGIN name="AudioFilePlayer" format="VST3" category="Fx" manufacturer="Matkat Music LLC"
+            version="1.0.0" file="E:\AudioProgramming\AudioFilePlayer\Builds\VisualStudio2019\x64\Debug\VST3\AudioFilePlayer.vst3"
+            uniqueId="79fe81c" isInstrument="0" fileTime="18043dd261a" infoUpdateTime="18043e21be0"
+            numInputs="2" numOutputs="2" isShell="0" uid="e95d02c7"/>
+    <STATE>288.VMjLgbQ....O+fWarAhckI2bo8la8HRLt.iHfTlai8FYo41Y8HRUTYTK3HxO9.BOVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9DyLx3BTIISX1UEaho2ZVkUdAAkKAwDUigWRWkEcQ0VTucmUY4BQtrTQLolShUELhsVRxHlXQcEV5UTLgIVT5ElLzXTX0UjQYk2cUAkb2EyUIQSLWQUQwjUaUYTVzomQhkmKt3hKt3hKt3hKt3hKlIUUMQUTPkzUZESQFM1ZQQEV5UjQtDDQlAEMAcEV40zQtDDQ14hK5EjKt3hKt3hKt3hRUACTEEzZh8VVWgkdUYTTmE0UXwyKIMzasA2atUlaz4COuX0TTMCTrU2Yo41TzEFck4C.</STATE>
+    <LAYOUT>
+      <INPUTS>
+        <BUS index="0" layout="L R"/>
+      </INPUTS>
+      <OUTPUTS>
+        <BUS index="0" layout="L R"/>
+      </OUTPUTS>
+    </LAYOUT>
+  </FILTER>
   <CONNECTION srcFilter="7" srcChannel="0" dstFilter="3" dstChannel="0"/>
   <CONNECTION srcFilter="7" srcChannel="1" dstFilter="3" dstChannel="1"/>
+  <CONNECTION srcFilter="8" srcChannel="0" dstFilter="7" dstChannel="0"/>
+  <CONNECTION srcFilter="8" srcChannel="1" dstFilter="7" dstChannel="1"/>
 </FILTERGRAPH>
