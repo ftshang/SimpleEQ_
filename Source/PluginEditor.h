@@ -17,7 +17,10 @@
 class SimpleEQAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
+    // Constructor
     SimpleEQAudioProcessorEditor (SimpleEQAudioProcessor&);
+
+    // Destructor
     ~SimpleEQAudioProcessorEditor() override;
 
     //==============================================================================
