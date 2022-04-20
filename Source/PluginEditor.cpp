@@ -79,7 +79,7 @@ std::vector<juce::Component*> SimpleEQAudioProcessorEditor::getComps()
         &lowCutFreqSlider,
         &highCutFreqSlider,
         &lowCutSlopeSlider,
-        &highCutFreqSlider
+        &highCutSlopeSlider
     };
 
 }
