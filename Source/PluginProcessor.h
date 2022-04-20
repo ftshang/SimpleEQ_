@@ -27,11 +27,22 @@ struct ChainSettings
     float highCutFreq{ 0.f };
     Slope lowCutSlope{ Slope::Slope_12 };
     Slope highCutSlope{ Slope::Slope_12 };
-
-   
 };
 
 ChainSettings getChainSettings(juce::AudioProcessorValueTreeState&);
+
+using Filter = juce::dsp::IIR::Filter<float>;
+
+using CutFilter = juce::dsp::ProcessorChain<Filter, Filter, Filter, Filter>;
+
+using MonoChain = juce::dsp::ProcessorChain<CutFilter, Filter, CutFilter>;
+
+enum ChainPositions
+{
+    LowCut,
+    Peak,
+    HighCut
+};
 
 //==============================================================================
 /**
@@ -82,20 +93,7 @@ public:
 
 private:
 
-    using Filter = juce::dsp::IIR::Filter<float>;
-
-    using CutFilter = juce::dsp::ProcessorChain<Filter, Filter, Filter, Filter>;
-
-    using MonoChain = juce::dsp::ProcessorChain<CutFilter, Filter, CutFilter>;
-
     MonoChain leftChain, rightChain;
-
-    enum ChainPositions
-    {
-        LowCut,
-        Peak,
-        HighCut
-    };
 
     void updatePeakFilter(const ChainSettings& chainSettings);
 
