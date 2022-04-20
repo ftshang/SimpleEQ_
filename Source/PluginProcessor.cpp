@@ -108,11 +108,8 @@ void SimpleEQAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     rightChain.prepare(spec);
 
     auto chainSettings = getChainSettings(audProcValTS);
-
-    auto peakCoeff = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, chainSettings.peakFreq, chainSettings.peakQual, juce::Decibels::decibelsToGain(chainSettings.peakGainInDec));
-
-    *leftChain.get<ChainPositions::Peak>().coefficients = *peakCoeff;
-    *rightChain.get<ChainPositions::Peak>().coefficients = *peakCoeff;
+    
+    updatePeakFilter(chainSettings);
 
     auto cutCoeff = juce::dsp::FilterDesign<float>::designIIRHighpassHighOrderButterworthMethod(chainSettings.lowCutFreq, sampleRate, (chainSettings.lowCutSlope + 1) * 2);
 
@@ -260,10 +257,7 @@ void SimpleEQAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
 
     auto chainSettings = getChainSettings(audProcValTS);
 
-    auto peakCoeff = juce::dsp::IIR::Coefficients<float>::makePeakFilter(getSampleRate(), chainSettings.peakFreq, chainSettings.peakQual, juce::Decibels::decibelsToGain(chainSettings.peakGainInDec));
-
-    *leftChain.get<ChainPositions::Peak>().coefficients = *peakCoeff;
-    *rightChain.get<ChainPositions::Peak>().coefficients = *peakCoeff;
+    updatePeakFilter(chainSettings);
 
     auto cutCoeff = juce::dsp::FilterDesign<float>::designIIRHighpassHighOrderButterworthMethod(chainSettings.lowCutFreq, getSampleRate(), (chainSettings.lowCutSlope + 1) * 2);
 
@@ -447,6 +441,18 @@ ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& audProcValTS)
     return settings;
 }
 
+void SimpleEQAudioProcessor::updatePeakFilter(const ChainSettings& chainSettings)
+{
+    auto peakCoeff = juce::dsp::IIR::Coefficients<float>::makePeakFilter(getSampleRate(), chainSettings.peakFreq, chainSettings.peakQual, juce::Decibels::decibelsToGain(chainSettings.peakGainInDec));
+
+    updateCoefficients(leftChain.get<ChainPositions::Peak>().coefficients, peakCoeff);
+    updateCoefficients(rightChain.get<ChainPositions::Peak>().coefficients, peakCoeff);
+}
+
+void SimpleEQAudioProcessor::updateCoefficients(Coefficients& old, const Coefficients& replacements)
+{
+    *old = *replacements;
+}
 //==============================================================================
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
