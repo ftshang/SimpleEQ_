@@ -19,10 +19,35 @@ struct CustomRotarySlider : juce::Slider
     }
 };
 
+struct ResponseCurveComponent : public juce::Component, public juce::AudioProcessorParameter::Listener, public juce::Timer
+{
+
+    ResponseCurveComponent(SimpleEQAudioProcessor&);
+    ~ResponseCurveComponent();
+
+    virtual void parameterValueChanged(int parameterIndex, float newValue) override;
+
+    virtual void parameterGestureChanged(int parameterIndex, bool gestureIsStarting) override
+    {
+
+    }
+
+    virtual void timerCallback() override;
+
+    virtual void paint(juce::Graphics& g) override;
+
+private:
+    SimpleEQAudioProcessor& audioProcessor;
+    juce::Atomic<bool> parametersChanged{ false };
+
+    MonoChain monoChain;
+
+};
+
 //==============================================================================
 /**
 */
-class SimpleEQAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::AudioProcessorParameter::Listener, public juce::Timer
+class SimpleEQAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
     // Constructor
@@ -35,21 +60,10 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    virtual void parameterValueChanged(int parameterIndex, float newValue) override;
-
-    virtual void parameterGestureChanged(int parameterIndex, bool gestureIsStarting) override
-    {
-    
-    }
-
-    virtual void timerCallback() override;
-
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     SimpleEQAudioProcessor& audioProcessor;
-
-    juce::Atomic<bool> parametersChanged{ false };
 
     CustomRotarySlider peakFreqSlider;
     CustomRotarySlider peakGainSlider;
@@ -58,6 +72,8 @@ private:
     CustomRotarySlider highCutFreqSlider;
     CustomRotarySlider lowCutSlopeSlider;
     CustomRotarySlider highCutSlopeSlider;
+
+    ResponseCurveComponent responseCurveComponent;
 
     std::vector<juce::Component*> getComps();
 
@@ -71,8 +87,6 @@ private:
     Attachment highCutFreqSliderAttachment;
     Attachment lowCutSlopeSliderAttachment;
     Attachment highCutSlopeSliderAttachment;
-
-    MonoChain monoChain;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleEQAudioProcessorEditor)
 };
