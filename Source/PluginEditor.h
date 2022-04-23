@@ -11,12 +11,48 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 
-struct CustomRotarySlider : juce::Slider
+struct LookAndFeel : public juce::LookAndFeel_V4
 {
-    CustomRotarySlider() : juce::Slider(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag, juce::Slider::TextEntryBoxPosition::NoTextBox)
+    virtual void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, juce::Slider& slida) override
     {
 
     }
+};
+
+
+struct RotarySliderWithLabels : juce::Slider
+{
+    RotarySliderWithLabels(juce::RangedAudioParameter& rap, const juce::String& unitSuffix) : param{ &rap }, suffix{ unitSuffix }, juce::Slider(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag, 
+        juce::Slider::TextEntryBoxPosition::NoTextBox)
+    {
+        setLookAndFeel(&looknFeel);
+    }
+
+    ~RotarySliderWithLabels()
+    {
+        setLookAndFeel(nullptr);
+    }
+
+
+    void paint(juce::Graphics& g) override
+    {
+
+    }
+
+    juce::Rectangle<int> getSliderBounds() const;
+
+    int getTextHeight() const
+    {
+        return 14;
+    }
+
+    juce::String getDisplayString() const;
+
+private:
+    LookAndFeel looknFeel;
+
+    juce::RangedAudioParameter* param;
+    juce::String suffix;
 };
 
 struct ResponseCurveComponent : public juce::Component, public juce::AudioProcessorParameter::Listener, public juce::Timer
@@ -65,13 +101,13 @@ private:
     // access the processor object that created it.
     SimpleEQAudioProcessor& audioProcessor;
 
-    CustomRotarySlider peakFreqSlider;
-    CustomRotarySlider peakGainSlider;
-    CustomRotarySlider peakQualitySlider;
-    CustomRotarySlider lowCutFreqSlider;
-    CustomRotarySlider highCutFreqSlider;
-    CustomRotarySlider lowCutSlopeSlider;
-    CustomRotarySlider highCutSlopeSlider;
+    RotarySliderWithLabels peakFreqSlider;
+    RotarySliderWithLabels peakGainSlider;
+    RotarySliderWithLabels peakQualitySlider;
+    RotarySliderWithLabels lowCutFreqSlider;
+    RotarySliderWithLabels highCutFreqSlider;
+    RotarySliderWithLabels lowCutSlopeSlider;
+    RotarySliderWithLabels highCutSlopeSlider;
 
     ResponseCurveComponent responseCurveComponent;
 
